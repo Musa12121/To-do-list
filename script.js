@@ -14,18 +14,18 @@ addButton.addEventListener("click", (e) => {
 function addition(id, title) {
   if (!title) return;
   const listItem = document.createElement("li");
-  listItem.innerHTML = `<input class='editable-input' type='text' value='${title}'/>  <div class='button-group'><button type='button' id='update-button' onclick='updateHandler(event)'>Update</button> <button type='button' id='delete-button' onclick='deleteHandler(event)'>Delete</button></div>`;
+  listItem.innerHTML = `<input class='editable-input' type='text' value='${title}'/>  <div class='button-group'><button type='button' id='update-button' onclick="updateHandler(event,this.parentElement.parentElement.querySelector('.editable-input').value)">Update</button> <button type='button' id='delete-button' onclick='deleteHandler(event)'>Delete</button></div>`;
   listItem.dataset.id = id;
   list.append(listItem);
-  data.push({ id: listItem.dataset.id, title: title });
+  data.push({ id: listItem.dataset.id, title });
   input.value = "";
   localStorage.setItem("data", JSON.stringify(data));
 }
 
-function updateHandler(e) {
+function updateHandler(e,newTitle) {
   data = data.map((item) => {
     if (item.id === e.target.closest("li").dataset.id) {
-      return { ...item, title: e.target.closest("input").value };
+      return { ...item, title:newTitle };
     }
     return item;
   });
